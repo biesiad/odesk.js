@@ -1,49 +1,77 @@
 describe("oDesk", function() {
-    beforeEach(function() {
-        spyOn($, 'getJSON');
-        spyOn($, 'post');
-    });
-
-    describe("oDesk.Authentication", function () {
+    describe("oDesk.Auth", function () {
         beforeEach(function() {
-            oDesk.Authentication.init('key', 'secret');
+            oDesk.Auth.init('key', 'secret');
         });
 
         describe('#getFrob', function () {
+            it('should return no data to callback on error', function(){
+                var callback = jasmine.createSpy();
+                spyOn($, 'ajax').andCallFake(function (options) {
+                    options.error();
+                });
+                oDesk.Auth.getFrob(callback);
+                expect(callback).toHaveBeenCalledWith({});
+            });
+
             it("should POST on api url", function () {
-                var callback = function () {};
-                oDesk.Authentication.getFrob(callback);
-                expect($.post.mostRecentCall.args[0]).toEqual('https://www.odesk.com/api/auth/v1/keys/frobs.json'); 
-                expect($.post.mostRecentCall.args[1]).toEqual({ api_key : 'key', api_sig : '2663dceff40088f756b984592465d482' }); 
+                var ajaxOptions,
+                    callback = function () {};
+                spyOn($, 'ajax');
+
+                oDesk.Auth.getFrob(callback);
+                ajaxOptions = $.ajax.mostRecentCall.args[0];
+                expect(ajaxOptions.url).toEqual('https://www.odesk.com/api/auth/v1/keys/frobs.json'); 
+                expect(ajaxOptions.data).toEqual({ api_key : 'key', api_sig : '2663dceff40088f756b984592465d482' }); 
+                expect(ajaxOptions.type).toEqual('POST'); 
             });
 
             it("should return frob to callback", function () {
                 var callback = jasmine.createSpy();
-                    oDesk.Authentication.getFrob(callback);
-                    $.post.mostRecentCall.args[2]({ frob: "frob" });
-                    expect(callback).toHaveBeenCalledWith({ frob: "frob" });
+                spyOn($, 'ajax').andCallFake(function (options) {
+                    options.success({ frob: "frob" });
+                });
+
+                oDesk.Auth.getFrob(callback);
+                expect(callback).toHaveBeenCalledWith({ frob: "frob" });
             });
         });
 
         describe('#getToken', function () {
+            it('should return no data to callback on error', function(){
+                var callback = jasmine.createSpy();
+                spyOn($, 'ajax').andCallFake(function (options) {
+                    options.error();
+                });
+                oDesk.Auth.getToken('frob', callback);
+                expect(callback).toHaveBeenCalledWith({});
+            });
+            
             it("should POST on api url", function () {
-                var callback = function () {};
-                oDesk.Authentication.getToken('frob', callback);
-                expect($.post.mostRecentCall.args[0]).toEqual('https://www.odesk.com/api/auth/v1/keys/tokens.json'); 
-                expect($.post.mostRecentCall.args[1]).toEqual({ api_key: 'key', frob: 'frob', api_sig: '5efc798e5d351bfde03faa9b3d703877' }); 
+                var ajaxOptions,
+                    callback = function () {};
+                spyOn($, 'ajax');
+
+                oDesk.Auth.getToken('frob', callback);
+                ajaxOptions = $.ajax.mostRecentCall.args[0];
+                expect(ajaxOptions.url).toEqual('https://www.odesk.com/api/auth/v1/keys/tokens.json'); 
+                expect(ajaxOptions.data).toEqual({ api_key: 'key', frob: 'frob', api_sig: '5efc798e5d351bfde03faa9b3d703877' }); 
+                expect(ajaxOptions.type).toEqual('POST'); 
             });
 
             it("should return token to callback", function () {
                 var callback = jasmine.createSpy();
-                    oDesk.Authentication.getToken('frob', callback);
-                    $.post.mostRecentCall.args[2]({ token: "token" });
-                    expect(callback).toHaveBeenCalledWith({ token: "token" });
+                spyOn($, 'ajax').andCallFake(function (options) {
+                    options.success({ token: "token" });
+                });
+                oDesk.Auth.getToken('frob', callback);
+                expect(callback).toHaveBeenCalledWith({ token: "token" });
             });
         });
 
-        describe('#authorizeUrl', function () {
+        describe('#getAuthorizationUrl', function () {
             it('should return formated url with frob', function () {
-                var url = oDesk.Authentication.authorizeUrl("frob");
+                var url = oDesk.Auth.getAuthorizationUrl("frob");
                 expect(url).toEqual("https://www.odesk.com/services/api/auth/?api_key=key&frob=frob&api_sig=5efc798e5d351bfde03faa9b3d703877");
             });
         });
@@ -55,18 +83,24 @@ describe("oDesk", function() {
         });
 
         describe('#get', function () {
-            it("should call formated url", function () {
-                var callback = function () {};
-                oDesk.Data.get("http://test.com", { tq: "SELECT hours" }, callback);
-                expect($.getJSON).toHaveBeenCalledWith("http://test.com?tq=SELECT%20hours", callback);
+            it('should return no data to callback on error', function(){
+                var callback = jasmine.createSpy();
+                spyOn($, 'ajax').andCallFake(function (options) {
+                    options.error();
+                });
+                oDesk.Data.get('http://test.com', { tq: "SELECT hours" }, callback);
+                expect(callback).toHaveBeenCalledWith({});
             });
-        });
+            
+            it("should get formated url with signature", function() {
+                var ajaxOptions,
+                    callback = function () {};
+                spyOn($, 'ajax');
 
-        describe('#getSigned', function () {
-            it("should call formated url with signature", function() {
-                var callback = function () {};
-                oDesk.Data.getSigned("http://test.com", { tq: "SELECT hours" }, callback);
-                expect($.getJSON).toHaveBeenCalledWith("http://test.com?tq=SELECT%20hours&api_token=token&api_key=key&frob=frob&api_sig=effb1ee7d8265e5eb9f6a4de9bf622c7", callback);
+                oDesk.Data.get("http://test.com", { tq: "SELECT hours" }, callback);
+                ajaxOptions = $.ajax.mostRecentCall.args[0];
+                expect(ajaxOptions.url).toEqual("http://test.com?tq=SELECT%20hours&api_token=token&api_key=key&frob=frob&api_sig=effb1ee7d8265e5eb9f6a4de9bf622c7");
+                expect(ajaxOptions.type).toEqual('GET'); 
             });
         });
     });
