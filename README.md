@@ -7,32 +7,32 @@ Javascript wrapper for oDesk API
 Usage
 -----
 
-### Authentication 
+### Auth 
 (for non-web based applications)
 
 
 Init module:
 
-    oDesk.Authentication.init(api_key, api_secret);
+    oDesk.Auth.init(api_key, api_secret);
 
 
 Get *frob*:
 
-    oDesk.Authentication.getFrob(function (data) {
-      console.log(data.frob);
+    oDesk.Auth.getFrob(function (data) {
+        console.log(data.frob);
     });
 
 
 Send user to oDesk app authorization url:
 
-    var url = oDesk.Authentication.authorizeUrl(frob);
+    var url = oDesk.Auth.getAuthorizatonUrl(frob);
     window.location.href = url;
 
 
 Wait for user to come back, and get *token*:
 
-    oDesk.Authentication.getToken(frob, function (data) {
-      console.log(data.token);
+    oDesk.Auth.getToken(frob, function (data) {
+        console.log(data.token);
     });
     
 
@@ -56,6 +56,6 @@ Get data from oDesk:
             tqx: "out:json"
         };
     
-    oDesk.Data.getSigned("https://www.odesk.com/gds/timereports/v1/providers/" + provider_id, params, function (data) {
+    oDesk.Data.get("https://www.odesk.com/gds/timereports/v1/providers/" + provider_id, params, function (data) {
           console.log(data.table);
     });
