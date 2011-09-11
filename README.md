@@ -8,7 +8,6 @@ Usage
 -----
 
 ### Auth 
-(for non-web based applications)
 
 
 Init module:
@@ -23,7 +22,7 @@ Get *frob*:
     });
 
 
-Send user to oDesk app authorization url:
+Send user to oDesk app authorization url (for non-web based applications):
 
     var url = oDesk.Auth.getAuthorizatonUrl(frob);
     window.location.href = url;
