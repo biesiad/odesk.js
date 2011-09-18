@@ -1,4 +1,6 @@
-describe("oDesk", function() {
+"use strict";
+
+describe("oDesk", function () {
     describe("oDesk.Auth", function () {
         beforeEach(function() {
             oDesk.Auth.init('key', 'secret');
