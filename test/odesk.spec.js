@@ -164,5 +164,17 @@ describe("odesk", function () {
                 expect(url).toEqual("http://testhost.com?");
             });
         });
+
+        describe('#formatUrlParams', function () {
+            it('should return params formated string', function () {
+                var params = {
+                        key3: "val3", 
+                        key2: "SELECT hours WHERE worked_on = '2000-01-01'", 
+                        key1: "some:thing"
+                    },
+                    url = odesk.Utils.formatUrlParams(params);
+                expect(url).toEqual("key3=val3&key2=SELECT%20hours%20WHERE%20worked_on%20%3D%20'2000-01-01'&key1=some%3Athing");
+            });
+        });
     });
 });
