@@ -1,0 +1,20 @@
+{
+    "name": "odesk",
+    "version": "0.0.1",
+    "description": "oDesk API wrapper",
+    "keywords": [ "odesk", "api", "wrapper" ],
+    "homepage": "https://github.com/biesiad/odesk.js",
+    "author": {
+        "name": "Grzegorz Biesiadecki",
+        "email": "gbiesiadecki@gmail.com"
+    },
+    "main": "lib/odesk.js",
+    "repository": {
+        "type": "git",
+        "url": "http://github.com/biesiad/odesk.js.git"
+    },
+    "dependencies": {
+        "md5": "",
+        "reqwest": ""
+    }
+}
