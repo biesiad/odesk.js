@@ -2,6 +2,15 @@
 var odesk = require('../lib/odesk.js');
 
 describe("odesk", function () {
+    describe("integration", function () {
+        it('should not throw error', function () {
+            odesk.Auth.init("ef0fa3470c570bb8343ec2ee61a414c6", "a3b634106b4a8f98");
+            odesk.Auth.getFrob(function (data) {
+                console.log(data);
+            });
+        });
+    });
+
     describe("odesk.Auth", function () {
         beforeEach(function() {
             odesk.Auth.init('key', 'secret');

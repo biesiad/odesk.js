@@ -14,7 +14,7 @@
         "url": "http://github.com/biesiad/odesk.js.git"
     },
     "dependencies": {
-        "md5": "",
+        "mhash": "~",
         "reqwest": ""
     }
 }
