@@ -2,29 +2,20 @@
 var odesk = require('../lib/odesk.js');
 
 describe("odesk", function () {
-    describe("integration", function () {
-        it('should not throw error', function () {
-            odesk.Auth.init("ef0fa3470c570bb8343ec2ee61a414c6", "a3b634106b4a8f98");
-            odesk.Auth.getFrob(function (data) {
-                console.log(data);
-            });
-        });
-    });
-
     describe("odesk.Auth", function () {
         beforeEach(function() {
             odesk.Auth.init('key', 'secret');
         });
 
         describe('#getFrob', function () {
-//             it('should return no data to callback on error', function(){
-//                 var callback = jasmine.createSpy();
-//                 spyOn(odesk.Utils, 'request').andCallFake(function (options) {
-//                     options.error();
-//                 });
-//                 odesk.Auth.getFrob(callback);
-//                 expect(callback).toHaveBeenCalledWith({});
-//             });
+            it('should return no data to callback on error', function(){
+                var callback = jasmine.createSpy();
+                spyOn(odesk.Utils, 'request').andCallFake(function (options) {
+                    options.callback({});
+                });
+                odesk.Auth.getFrob(callback);
+                expect(callback).toHaveBeenCalledWith({});
+            });
 
             it("should POST on api url", function () {
                 var callback = function () { };
@@ -32,7 +23,7 @@ describe("odesk", function () {
 
                 odesk.Auth.getFrob(callback);
                 expect(odesk.Utils.request).toHaveBeenCalledWith({ 
-                    url: 'http://odesk.com/api/auth/v1/keys/frobs.json', 
+                    url: 'https://www.odesk.com/api/auth/v1/keys/frobs.json', 
                     method: 'POST',  
                     data: {
                         api_key : 'key', 
@@ -53,22 +44,22 @@ describe("odesk", function () {
         });
 
         describe('#getToken', function () {
-//             it('should return no data to callback on error', function(){
-//                 var callback = jasmine.createSpy();
-//                 spyOn($, 'ajax').andCallFake(function (options) {
-//                     options.error();
-//                 });
-//                 odesk.Auth.getToken('frob', callback);
-//                 expect(callback).toHaveBeenCalledWith({});
-//             });
-//             
+            it('should return no data to callback on error', function(){
+                var callback = jasmine.createSpy();
+                spyOn(odesk.Utils, 'request').andCallFake(function (options) {
+                    options.callback({});
+                });
+                odesk.Auth.getToken('frob', callback);
+                expect(callback).toHaveBeenCalledWith({});
+            });
+            
             it("should POST on api url", function () {
                 var callback = function () {};
                 spyOn(odesk.Utils, 'request');
 
                 odesk.Auth.getToken('frob', callback);
                 expect(odesk.Utils.request).toHaveBeenCalledWith({
-                    url: 'http://odesk.com/api/auth/v1/keys/tokens.json',
+                    url: 'https://www.odesk.com/api/auth/v1/keys/tokens.json',
                     data: {
                         api_key: 'key', 
                         frob: 'frob', 
@@ -103,22 +94,22 @@ describe("odesk", function () {
         });
 
         describe('#get', function () {
-//             it('should return no data to callback on error', function(){
-//                 var callback = jasmine.createSpy();
-//                 spyOn($, 'ajax').andCallFake(function (options) {
-//                     options.error();
-//                 });
-//                 odesk.Data.get('http://test.com', { tq: "SELECT hours" }, callback);
-//                 expect(callback).toHaveBeenCalledWith({});
-//             });
+            it('should return no data to callback on error', function(){
+                var callback = jasmine.createSpy();
+                spyOn(odesk.Utils, 'request').andCallFake(function (options) {
+                    options.callback({});
+                });
+                odesk.Data.get('http://test.com', { tq: "SELECT hours" }, callback);
+                expect(callback).toHaveBeenCalledWith({});
+            });
             
             it("should get formated url with signature", function() {
                 var callback = function () {};
                 spyOn(odesk.Utils, 'request');
 
-                odesk.Data.get("http://test.com", { tq: "SELECT hours" }, callback);
+                odesk.Data.get("https://test.com", { tq: "SELECT hours" }, callback);
                 expect(odesk.Utils.request).toHaveBeenCalledWith({
-                    url: "http://test.com?tq=SELECT%20hours&api_token=token&api_key=key&frob=frob&api_sig=effb1ee7d8265e5eb9f6a4de9bf622c7",
+                    url: "https://test.com?tq=SELECT%20hours&api_token=token&api_key=key&frob=frob&api_sig=effb1ee7d8265e5eb9f6a4de9bf622c7",
                     method: 'GET',
                     callback: callback
                 });
@@ -164,13 +155,13 @@ describe("odesk", function () {
                         key2: "SELECT hours WHERE worked_on = '2000-01-01'", 
                         key1: "some:thing"
                     },
-                    url = odesk.Utils.formatUrl("http://testhost.com", params);
-                expect(url).toEqual("http://testhost.com?key3=val3&key2=SELECT%20hours%20WHERE%20worked_on%20%3D%20'2000-01-01'&key1=some%3Athing");
+                    url = odesk.Utils.formatUrl("https://testhost.com", params);
+                expect(url).toEqual("https://testhost.com?key3=val3&key2=SELECT%20hours%20WHERE%20worked_on%20%3D%20'2000-01-01'&key1=some%3Athing");
             });
 
             it('should return host+path when params empty', function(){
-                var url = odesk.Utils.formatUrl("http://testhost.com", {});
-                expect(url).toEqual("http://testhost.com?");
+                var url = odesk.Utils.formatUrl("https://testhost.com", {});
+                expect(url).toEqual("https://testhost.com?");
             });
         });
 

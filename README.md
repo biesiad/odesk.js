@@ -4,12 +4,24 @@ oDesk.js
 Javascript wrapper for oDesk API
 
 
+Installation
+------------
+
+Node.js application:
+
+    > npm install odesk
+
+For client-side applications please use ./client.
+Due to security reasons (oDesk application secret keys are exposed to users), it's not recomended for public use .
+
+
 Usage
 -----
 
 ### Auth 
 
 
+Library currently supports only token authorization for non-based application.
 Init module:
 
     oDesk.Auth.init(api_key, api_secret);
@@ -22,7 +34,7 @@ Get *frob*:
     });
 
 
-Send user to oDesk app authorization url (for non-web based applications):
+Send user to oDesk app authorization url:
 
     var url = oDesk.Auth.getAuthorizatonUrl(frob);
     window.location.href = url;
