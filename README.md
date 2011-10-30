@@ -6,6 +6,9 @@ Javascript wrapper for oDesk API
 Usage
 -----
 
+
+### Installation
+
 - Node.js application:
 
     > npm install odesk
@@ -14,8 +17,7 @@ Usage
 Due to security reasons (oDesk application secret keys are exposed to users), it's not recomended for public use .
 
 
-### Auth 
-    
+### Auth
 
 Library currently supports only token authorization for non-based application.
 Init module:
