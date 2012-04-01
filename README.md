@@ -21,7 +21,7 @@ Due to security reasons (oDesk application secret keys are exposed to users), it
 
 ### Auth
 
-Library currently supports only token authorization for non-based application.
+Library currently supports only token authorization for non-web based application.
 Init module:
 
 ```javascript
