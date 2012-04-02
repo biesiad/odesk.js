@@ -17,7 +17,7 @@ describe('api', function () {
             expect(odesk.OAuth.get).toHaveBeenCalled();
             expect(odesk.tokenAuth.get).not.toHaveBeenCalled();
         });
-        it('calls OAuth.get', function () {
+        it('calls tokenAuth.get', function () {
             spyOn(odesk.OAuth, 'get');
             spyOn(odesk.tokenAuth, 'get');
 
