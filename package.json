@@ -1,6 +1,6 @@
 {
     "name": "odesk",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "oDesk API wrapper",
     "keywords": [ "odesk", "api", "wrapper" ],
     "homepage": "https://github.com/biesiad/odesk.js",
