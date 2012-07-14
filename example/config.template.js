@@ -1,3 +1,3 @@
-export.key = ""
-export.secret = ""
-export.userUID = ""
+exports.key = "";
+exports.secret = "";
+exports.userUID = "";
