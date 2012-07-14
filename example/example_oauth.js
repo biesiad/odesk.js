@@ -1,8 +1,9 @@
+var config = require('./config.js');
 var odesk = require('../odesk.js');
 
-var key = '';
-var secret = '';
-var userUID = '';
+var key = config.key;
+var secret = config.secret;
+var userUID = config.userUID;
 
 odesk.OAuth.init(key, secret);
 
