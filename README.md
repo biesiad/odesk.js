@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/biesiad/odesk.js.png)](http://travis-ci.org/biesiad/odesk.js)
+
 oDesk.js
 ========
 
