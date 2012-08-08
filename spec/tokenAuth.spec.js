@@ -1,6 +1,6 @@
 var tokenAuth = require('../odesk.js').tokenAuth;
 
-describe("odesk.tokenAuth", function () {
+xdescribe("odesk.tokenAuth", function () {
     beforeEach(function(){
         tokenAuth.init('key', 'secret');
     });
